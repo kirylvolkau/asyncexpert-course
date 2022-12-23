@@ -7,7 +7,7 @@ namespace AsyncAwaitExercises.Core
 {
     public class AsyncHelpers
     {
-        public static async Task<string> GetStringWithRetries(HttpClient client, string url, int maxTries = 3, CancellationToken token = default)
+        public static async Task<string> GetStringWithRetriesAsync(HttpClient client, string url, int maxTries = 3, CancellationToken token = default)
         {
             // Create a method that will try to get a response from a given `url`, retrying `maxTries` number of times.
             // It should wait one second before the second try, and double the wait time before every successive retry
@@ -22,8 +22,31 @@ namespace AsyncAwaitExercises.Core
             // * `HttpClient.GetStringAsync` does not accept cancellation token (use `GetAsync` instead)
             // * you may use `EnsureSuccessStatusCode()` method
 
-            return string.Empty;
-        }
+            if (maxTries < 2)
+                throw new ArgumentException();
 
+            // the method should be split here according to the guidelines
+            string result = null; 
+            for (var tryAttempt = 0; tryAttempt <= maxTries; tryAttempt++)
+            {
+                try
+                {
+                    if (tryAttempt != 0)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, tryAttempt - 1)), token);
+                    }
+                    var response = await client.GetAsync(url, token);
+                    _ = response.EnsureSuccessStatusCode();
+                    result = await response.Content.ReadAsStringAsync();
+                    break;
+                }
+                catch
+                {
+                    if (tryAttempt == maxTries) throw;
+                }
+            }
+
+            return result ?? throw new InvalidOperationException("This should never happen!");
+        }
     }
 }

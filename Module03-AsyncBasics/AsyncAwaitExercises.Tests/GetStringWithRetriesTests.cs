@@ -31,7 +31,7 @@ namespace AsyncAwaitExercises.Tests
             var client = mockHttp.ToHttpClient();
 
             var exception = await Record.ExceptionAsync(async () =>
-                await AsyncHelpers.GetStringWithRetries(client,
+                await AsyncHelpers.GetStringWithRetriesAsync(client,
                     "https://local/test",
                     maxTries));
 
@@ -49,7 +49,7 @@ namespace AsyncAwaitExercises.Tests
             cts.Cancel();
 
             var exception = await Record.ExceptionAsync(async () => 
-             await AsyncHelpers.GetStringWithRetries(client, 
+             await AsyncHelpers.GetStringWithRetriesAsync(client, 
                 "https://local/test",
                 token: cts.Token));
 
@@ -69,7 +69,7 @@ namespace AsyncAwaitExercises.Tests
 
             var client = mockHttp.ToHttpClient();
 
-            var result = await AsyncHelpers.GetStringWithRetries(client,
+            var result = await AsyncHelpers.GetStringWithRetriesAsync(client,
                 "https://local/test", maxTries: 3);
 
             Assert.NotNull(result);
@@ -90,7 +90,7 @@ namespace AsyncAwaitExercises.Tests
 
             var client = mockHttp.ToHttpClient();
 
-            var result = await AsyncHelpers.GetStringWithRetries(client,
+            var result = await AsyncHelpers.GetStringWithRetriesAsync(client,
                 "https://local/test", maxTries: 3);
 
             Assert.NotNull(result);
@@ -114,7 +114,7 @@ namespace AsyncAwaitExercises.Tests
 
             var client = mockHttp.ToHttpClient();
 
-            var result = await AsyncHelpers.GetStringWithRetries(client,
+            var result = await AsyncHelpers.GetStringWithRetriesAsync(client,
                 "https://local/test", maxTries: 3);
 
             Assert.NotNull(result);
@@ -139,7 +139,7 @@ namespace AsyncAwaitExercises.Tests
             var client = mockHttp.ToHttpClient();
 
             var exception = await Record.ExceptionAsync(async () =>
-                await AsyncHelpers.GetStringWithRetries(client,
+                await AsyncHelpers.GetStringWithRetriesAsync(client,
                     "https://local/test", maxTries: 3));
 
             Assert.NotNull(exception);
@@ -160,7 +160,7 @@ namespace AsyncAwaitExercises.Tests
             cts.CancelAfter(500);
 
             var exception = await Record.ExceptionAsync(async () =>
-                await AsyncHelpers.GetStringWithRetries(client,
+                await AsyncHelpers.GetStringWithRetriesAsync(client,
                     "https://local/test",
                     token: cts.Token));
 
@@ -185,7 +185,7 @@ namespace AsyncAwaitExercises.Tests
             cts.CancelAfter(1500);
 
             var exception = await Record.ExceptionAsync(async () =>
-                await AsyncHelpers.GetStringWithRetries(client,
+                await AsyncHelpers.GetStringWithRetriesAsync(client,
                     "https://local/test",
                     token: cts.Token));
 

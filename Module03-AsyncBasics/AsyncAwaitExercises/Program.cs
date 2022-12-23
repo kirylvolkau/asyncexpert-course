@@ -16,7 +16,7 @@ namespace AsyncAwaitExercises
             try
             {
                 DumpThread("Before call");
-                var result = await AsyncHelpers.GetStringWithRetries(client, "https://postman-echo.com/status/500");
+                var result = await AsyncHelpers.GetStringWithRetriesAsync(client, "https://postman-echo.com/status/500");
                 DumpThread("After call");
 
             }
